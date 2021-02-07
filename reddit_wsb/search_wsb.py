@@ -27,7 +27,6 @@ for submission in subreddit.new(limit=500):
             print('\n******')
             print("STOCK: " + stock)
             print("TITLE: " + currPost)
-            print('******\n')
             submission.comments.replace_more(limit=None)
             for top_level_comment in submission.comments:
                 for second_level_comment in top_level_comment.replies:
