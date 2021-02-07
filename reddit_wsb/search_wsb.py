@@ -18,7 +18,7 @@ reddit = praw.Reddit(
     password="uottahack2021"
 )
 
-subreddit = reddit.subreddit("pennystocks")
+subreddit = reddit.subreddit("stocks")
 
 with open("stocklist.txt") as f:
     stockList = f.readlines()
@@ -44,7 +44,7 @@ def analyze(text:str):
     print(f"detected emotions: {emotions}")
 
 # assume you have a Subreddit instance bound to variable `subreddit`
-for submission in subreddit.new(limit=50):
+for submission in subreddit.top(limit=100):
     currPost = submission.title.encode('cp1252', errors='replace').decode('cp1252') 
     for stock in stockList:
         if (" " + str(stock) + " ") in currPost:
@@ -54,6 +54,6 @@ for submission in subreddit.new(limit=50):
             submission.comments.replace_more(limit=None)
             for top_level_comment in submission.comments:
                 for second_level_comment in top_level_comment.replies:
-                    analyze(top_level_comment.body.encode('cp1252', errors='replace').decode('cp1252'))
+                    analyze(second_level_comment.body.encode('cp1252', errors='replace').decode('cp1252'))
 
 
